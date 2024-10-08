@@ -93,7 +93,7 @@ function SideBarNav() {
                 <li>
                   <Link
                     className='flex mt-5 items-center gap-4'
-                    href='https://github.com/ThandoSomacele/vml-assessment'
+                    href='https://github.com/ThandoSomacele/bulltech-assessment'
                     target='_blank'>
                     <Image
                       className='object-contain'
@@ -150,7 +150,7 @@ function SideBarNav() {
               </button>
               <ul className='px-5 flex flex-col gap-5' style={companyContentStyle} ref={companyContent}>
                 <li className='flex mt-5 items-center gap-4'>
-                  <Link href='https://github.com/ThandoSomacele/vml-assessment' target='_blank'>
+                  <Link href='https://github.com/ThandoSomacele/bulltech-assessment' target='_blank'>
                     History
                   </Link>
                 </li>
@@ -159,12 +159,12 @@ function SideBarNav() {
               </ul>
             </li>
             <li>
-              <Link href='https://github.com/ThandoSomacele/vml-assessment' target='_blank'>
+              <Link href='https://github.com/ThandoSomacele/bulltech-assessment' target='_blank'>
                 Careers
               </Link>
             </li>
             <li>
-              <Link href='https://github.com/ThandoSomacele/vml-assessment' target='_blank'>
+              <Link href='https://github.com/ThandoSomacele/bulltech-assessment' target='_blank'>
                 About
               </Link>
             </li>
