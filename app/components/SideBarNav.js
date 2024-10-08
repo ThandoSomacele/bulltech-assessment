@@ -1,7 +1,9 @@
 'use client';
+
 import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useAuth } from './../contexts/AuthContext';
 
 function SideBarNav() {
   const [showSidebar, setShowSidebar] = useState('right-[-100%]');
@@ -12,21 +14,27 @@ function SideBarNav() {
   const [isCompanyCollapsed, setIsCompanyCollapsed] = useState(true);
   const [isFeautureRotated, setIsFeatureRotated] = useState(false);
   const [isCompanyRotated, setIsCompanyRotated] = useState(false);
+  const { token, logout } = useAuth();
 
   const handleSidebarNav = () => {
-    setShowSidebar(showSidebar === 'right-[-100%]' ? 'right-0' : 'right-[-100%]');
-    setShowBgFilter(showBgFilter === 'hidden' ? 'flex' : 'hidden');
+    setShowSidebar(prev => (prev === 'right-[-100%]' ? 'right-0' : 'right-[-100%]'));
+    setShowBgFilter(prev => (prev === 'hidden' ? 'flex' : 'hidden'));
   };
 
-  function handleFeatureCollapse() {
+  const handleFeatureCollapse = () => {
     setIsFeatureCollapsed(!isFeatureCollapsed);
     setIsFeatureRotated(!isFeautureRotated);
-  }
+  };
 
-  function handleCompanyCollapse() {
+  const handleCompanyCollapse = () => {
     setIsCompanyCollapsed(!isCompanyCollapsed);
     setIsCompanyRotated(!isCompanyRotated);
-  }
+  };
+
+  const handleLogout = () => {
+    logout();
+    handleSidebarNav();
+  };
 
   const featureContentStyle = {
     maxHeight: isFeatureCollapsed ? '0px' : `${featureContent.current?.scrollHeight}px`,
@@ -63,12 +71,12 @@ function SideBarNav() {
         <Image
           className='object-contain lg:hidden'
           src='/icons/icon-close-menu.svg'
-          width='32'
-          height='32'
+          width={32}
+          height={32}
           alt='snap logo'
           onClick={handleSidebarNav}
         />
-        <nav className='lg:hidden w-full text-sm py-5 md:px-10 tracking-[0.5px] '>
+        <nav className='lg:hidden w-full text-sm py-5 md:px-10 tracking-[0.5px]'>
           <ul className='flex flex-col gap-6 text-medium_gray'>
             <li>
               <button className='flex gap-3 items-center' onClick={handleFeatureCollapse}>
@@ -162,13 +170,33 @@ function SideBarNav() {
             </li>
           </ul>
           <div className='register-btns-mobile mt-8 flex flex-col gap-3 group-open:-rotate-180gap-10 items-center text-medium_gray'>
-            <Link href={'#'}>Login</Link>
-            <Link
-              className='border-2 border-medium_gray px-6 py-2.5 w-full rounded-2xl text-center'
-              href='https://github.com/ThandoSomacele/vml-assessment'
-              target='_blank'>
-              Register
-            </Link>
+            {token ? (
+              <>
+                <Link
+                  href='/dashboard'
+                  className='bg-green-500 text-white px-6 py-2.5 w-full rounded-2xl text-center hover:bg-green-600 transition-colors'
+                  onClick={handleSidebarNav}>
+                  Dashboard
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className='border-2 border-medium_gray px-6 py-2.5 w-full rounded-2xl text-center hover:border-green-600 hover:text-green-600 transition-colors'>
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href='/login' className='hover:text-green-600' onClick={handleSidebarNav}>
+                  Login
+                </Link>
+                <Link
+                  className='border-2 border-medium_gray px-6 py-2.5 w-full rounded-2xl text-center hover:border-green-600 hover:text-green-600 transition-colors'
+                  href='#'
+                  onClick={handleSidebarNav}>
+                  Register
+                </Link>
+              </>
+            )}
           </div>
         </nav>
       </div>

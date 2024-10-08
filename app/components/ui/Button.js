@@ -1,21 +1,21 @@
-/* eslint-disable react/prop-types */
+import Link from 'next/link';
 
-export default function Button({ className, btnStyle = 'fill', btnText = 'This Button' }) {
+export default function Button({ className, btnStyle = 'fill', btnText = 'This Button', href = '#', target = false }) {
   // Fill Button
   if (btnStyle === 'fill') {
     return (
-      <button className={`btn btn-fill ${className}`}>
+      <Link href={href} className={`btn btn-fill ${className}`} target={target ? '_blank' : ''}>
         <span className='btn-text'>{btnText}</span>
-      </button>
+      </Link>
     );
   }
 
   // Outline Button
   if (btnStyle === 'outline') {
     return (
-      <button className='btn btn-outline'>
+      <Link href={href} className='btn btn-outline' target={target ? '_blank' : ''}>
         <span className='btn-text gradient-text'>{btnText}</span>
-      </button>
+      </Link>
     );
   }
 }

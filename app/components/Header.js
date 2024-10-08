@@ -3,22 +3,29 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useAuth } from './../contexts/AuthContext';
 
 function Header() {
   const [displayFetures, setDisplyFeature] = useState('hidden');
   const [displayComapany, setDisplyCompany] = useState('hidden');
+  const { token, logout } = useAuth();
 
   const toggleFeatures = () => {
-    displayFetures === 'hidden' ? setDisplyFeature('flex') : setDisplyFeature('hidden');
+    setDisplyFeature(prev => (prev === 'hidden' ? 'flex' : 'hidden'));
   };
+
   const toggleCompany = () => {
-    displayComapany === 'hidden' ? setDisplyCompany('flex') : setDisplyCompany('hidden');
+    setDisplyCompany(prev => (prev === 'hidden' ? 'flex' : 'hidden'));
+  };
+
+  const handleLogout = () => {
+    logout();
   };
 
   return (
     <div className='container py-6 lg:flex items-center justify-start gap-16 hidden'>
-      <Link href={'/'}>
-        <Image src='/assets/logo.png' width='96' height='19' alt='snap logo' className='object-contain w-40' />
+      <Link href='/'>
+        <Image src='/assets/logo.png' width={96} height={19} alt='snap logo' className='object-contain w-40' />
       </Link>
       <nav className='lg:flex items-center justify-between w-full hidden lg:text-sm tracking-[0.5px]'>
         <ul className='flex gap-10 text-medium_gray'>
@@ -145,14 +152,27 @@ function Header() {
           </li>
         </ul>
         <div className='register-btns flex gap-10 items-center text-medium_gray'>
-          <Link className='hover:text-almost_black' href='/login'>
-            Login
-          </Link>
-          <Link
-            className='border-2 border-medium_gray px-6 py-2.5 rounded-2xl hover:text-almost_black hover:border-almost_black'
-            href='#'>
-            Register
-          </Link>
+          {token ? (
+            <>
+              <Link href='/dashboard' className='hover:text-green-600'>
+                <Image src='/assets/profile-icon.png' width={32} height={32} alt='Profile' className='rounded-full' />
+              </Link>
+              <button onClick={handleLogout} className='hover:text-green-600'>
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link className='hover:text-green-600' href='/login'>
+                Login
+              </Link>
+              <Link
+                className='border-2 border-medium_gray px-6 py-2.5 rounded-2xl hover:text-green-600 hover:border-green-600'
+                href='#'>
+                Register
+              </Link>
+            </>
+          )}
         </div>
       </nav>
     </div>
